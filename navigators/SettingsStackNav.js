@@ -12,12 +12,11 @@ export default function SettingsStackNav() {
         component={SettingsScreen}
         options={{ title: "Settings" }}
       />
+      <Stack.Screen
+        name="About"
+        component={AboutScreen}
+        options={{ title: "About" }}
+      />
     </Stack.Navigator>
   );
 }
-
-// {/* <Stack.Screen
-//   name="About"
-//   component={AboutScreen}
-//   options={{ title: "About" }}
-// /> */}
