@@ -13,7 +13,7 @@ This is a mobile app that lets users find and build their anime list.
 - React Navigation
 - Styled-Components
 - SQLite
-- Ionicons icon library
+- React Native Vector Icons
 - Jikan v3 API
 
 ## Colour Palette

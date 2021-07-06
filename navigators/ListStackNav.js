@@ -7,11 +7,14 @@ const Stack = createStackNavigator();
 
 export default function SearchStackNav() {
   return (
-    <Stack.Navigator initialRouteName="List">
+    <Stack.Navigator
+      initialRouteName="List"
+      screenOptions={{ headerShown: false }}
+    >
       <Stack.Screen
         name="List"
         component={ListScreen}
-        options={{ title: "List" }}
+        options={{ title: "Your List" }}
       />
       <Stack.Screen
         name="Detail"
