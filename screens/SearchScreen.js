@@ -16,20 +16,19 @@ import {
 } from "./SearchScreen.styled";
 import localSearchData from "../assets/localSearchData.json";
 
+// style={{
+//   shadowColor: "#000",
+//   shadowOffset: {
+//     width: 0,
+//     height: 5,
+//   },
+//   shadowOpacity: 0.2,
+//   shadowRadius: 1.41,
+//   elevation: 3,
+// }}
+
 const Item = ({ item, onPress }) => (
-  <ResultListItem
-    // style={{
-    //   shadowColor: "#000",
-    //   shadowOffset: {
-    //     width: 0,
-    //     height: 5,
-    //   },
-    //   shadowOpacity: 0.2,
-    //   shadowRadius: 1.41,
-    //   elevation: 3,
-    // }}
-    onPress={onPress}
-  >
+  <ResultListItem key={String(item.mal_id)} onPress={onPress}>
     <ResultListItemImage source={item.image_url} />
     <ResultListItemTextWrapper>
       <ResultListItemTextHeader>{item.title}</ResultListItemTextHeader>

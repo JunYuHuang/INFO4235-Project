@@ -1,65 +1,38 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, SafeAreaView, Dimensions } from "react-native";
+import { View, Text, SafeAreaView, ScrollView } from "react-native";
 import styled from "styled-components/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useTheme } from "@react-navigation/native";
 import {
-  List,
-  ListItem,
-  ListItemImage,
-  ListItemText,
+  HeadingWrapper,
+  H1Text,
+  H2Text,
+  H3Text,
+  AddButtonWrapper,
+  FullImage,
+  AnimeDetailsContainer,
+  AnimeDetail,
+  ArticleBlock,
+  BodyText,
+  NotesTextInput,
 } from "./DetailScreen.styled";
-import localSearchData from "../assets/localSearchData.json";
-
-const window = Dimensions.get("window");
+import useWindowDimensions from "../lib/useWindowDimensions";
+import localSearchData from "../assets/localAnimeDetailData.json";
 
 export default function DetailScreen({ navigation }) {
+  const { width } = useWindowDimensions();
   const { spacing, colors } = useTheme();
-  const [listItem, setListItem] = useState({});
-  const [windowDimensions, setWindowDimensions] = useState({
-    width: window.width,
-    height: window.height,
-  });
-
-  const onChange = ({ window }) => {
-    setWindowDimensions({
-      width: window.width,
-      height: window.height,
-    });
-  };
-
-  useEffect(() => {
-    // dynamically adjust image card dimensions depending on device resolution
-    Dimensions.addEventListener("change", onChange);
-    return () => {
-      Dimensions.removeEventListener("change", onChange);
-    };
-  });
+  const [animeItem, setAnimeItem] = useState({});
+  // const { title, image_url, aired } = animeItem;
 
   useEffect(() => {
     // TODO: fetch user item
-    setListItem(localSearchData.results[0]);
-    console.log(listItem);
+    setAnimeItem(localSearchData);
+    console.log(localSearchData);
   }, []);
 
-  const renderItem = ({ item }) => {
-    return (
-      <ListItem
-        style={{
-          width: windowDimensions.width - 64,
-        }}
-        onPress={() => navigation.navigate("Detail")}
-      >
-        <ListItemImage
-          source={item.image_url}
-          style={{
-            width: windowDimensions.width - 64,
-            height: (windowDimensions.width - 64) * 1.4,
-          }}
-        />
-        <ListItemText>{item.title}</ListItemText>
-      </ListItem>
-    );
+  const handleAddButton = () => {
+    console.log("TODO: Add anime title to local SQLite database!");
   };
 
   return (
@@ -70,14 +43,51 @@ export default function DetailScreen({ navigation }) {
         marginBottom: "-32px",
       }}
     >
-      <List
-        data={listItem}
-        renderItem={renderItem}
-        keyExtractor={(item) => String(item.mal_id)}
-        // columnWrapperStyle={{
-        //   justifyContent: "space-between",
-        // }}
-      />
+      <ScrollView>
+        <HeadingWrapper>
+          <H1Text>{localSearchData.title}</H1Text>
+          <AddButtonWrapper>
+            <Icon
+              name="add-sharp"
+              color={colors.veryDarkBlack}
+              size="28px"
+              onPress={handleAddButton}
+            />
+          </AddButtonWrapper>
+        </HeadingWrapper>
+        <FullImage
+          style={{
+            width: width - 64,
+            height: (width - 64) * 1.4,
+          }}
+          source={localSearchData.image_url}
+        />
+        <AnimeDetailsContainer>
+          <AnimeDetail>
+            <H3Text>Aired</H3Text>
+            <BodyText>{localSearchData.aired.string}</BodyText>
+          </AnimeDetail>
+          <AnimeDetail>
+            <H3Text>Episodes</H3Text>
+            <BodyText>{localSearchData.episodes}</BodyText>
+          </AnimeDetail>
+          <AnimeDetail>
+            <H3Text>User Rating</H3Text>
+            <BodyText>{localSearchData.score} / 10</BodyText>
+          </AnimeDetail>
+        </AnimeDetailsContainer>
+        <ArticleBlock>
+          <H2Text>Synopsis</H2Text>
+          <BodyText>{localSearchData.synopsis}</BodyText>
+        </ArticleBlock>
+        <ArticleBlock>
+          <H2Text>Your Notes</H2Text>
+          <NotesTextInput
+            placeholder="Write your notes"
+            defaultValue="This show sucks ass"
+          />
+        </ArticleBlock>
+      </ScrollView>
     </SafeAreaView>
   );
 }

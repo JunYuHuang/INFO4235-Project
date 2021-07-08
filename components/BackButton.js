@@ -3,7 +3,7 @@ import { useTheme } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { ButtonWrapper } from "./BackButton.styled";
 
-export default function BackButton({ onPress }) {
+export default function BackButton({ onPress, size }) {
   const { colors } = useTheme();
 
   return (
@@ -11,7 +11,7 @@ export default function BackButton({ onPress }) {
       <Icon
         name="arrow-back"
         color={colors.veryDarkBlack}
-        size="19px"
+        size={size ? size : "19px"}
         onPress={onPress}
       />
     </ButtonWrapper>

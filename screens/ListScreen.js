@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  Dimensions,
-} from "react-native";
+import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import styled from "styled-components/native";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -15,32 +9,13 @@ import {
   ListItemImage,
   ListItemText,
 } from "./ListScreen.styled";
+import useWindowDimensions from "../lib/useWindowDimensions";
 import localSearchData from "../assets/localSearchData.json";
 
-const window = Dimensions.get("window");
-
 export default function ListScreen({ navigation }) {
+  const { width } = useWindowDimensions();
   const { spacing, colors } = useTheme();
   const [userList, setUserList] = useState([]);
-  const [windowDimensions, setWindowDimensions] = useState({
-    width: window.width,
-    height: window.height,
-  });
-
-  const onChange = ({ window }) => {
-    setWindowDimensions({
-      width: window.width,
-      height: window.height,
-    });
-  };
-
-  useEffect(() => {
-    // dynamically adjust image card dimensions depending on device resolution
-    Dimensions.addEventListener("change", onChange);
-    return () => {
-      Dimensions.removeEventListener("change", onChange);
-    };
-  });
 
   useEffect(() => {
     // TODO: fetch user list
@@ -52,15 +27,15 @@ export default function ListScreen({ navigation }) {
     return (
       <ListItem
         style={{
-          width: (windowDimensions.width - 64) * 0.45,
+          width: (width - 64) * 0.45,
         }}
         onPress={() => navigation.navigate("Detail")}
       >
         <ListItemImage
           source={item.image_url}
           style={{
-            width: (windowDimensions.width - 64) * 0.45,
-            height: (windowDimensions.width - 64) * 0.45 * 1.4,
+            width: (width - 64) * 0.45,
+            height: (width - 64) * 0.45 * 1.4,
           }}
         />
         <ListItemText>{item.title}</ListItemText>
