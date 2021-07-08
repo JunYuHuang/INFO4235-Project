@@ -15,6 +15,9 @@ import {
   ArticleBlock,
   BodyText,
   NotesTextInput,
+  BottomBackButton,
+  BottomBackButtonWrapper,
+  ButtonText,
 } from "./DetailScreen.styled";
 import BackButton from "../components/BackButton";
 import useWindowDimensions from "../lib/useWindowDimensions";
@@ -96,6 +99,12 @@ export default function DetailScreen({ route, navigation }) {
             numberOfLines={20}
           />
         </ArticleBlock>
+        <BottomBackButtonWrapper>
+          <BottomBackButton onPress={handleBackButton}>
+            <BackButton size={24} />
+            <ButtonText>Back to Search</ButtonText>
+          </BottomBackButton>
+        </BottomBackButtonWrapper>
       </ScrollView>
     </SafeAreaView>
   );

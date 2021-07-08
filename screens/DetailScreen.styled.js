@@ -72,3 +72,28 @@ export const NotesTextInput = styled.TextInput`
   outline-color: transparent;
   line-height: 28px;
 `;
+
+export const BottomBackButtonWrapper = styled.View`
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`;
+
+export const BottomBackButton = styled.TouchableOpacity`
+  width: 200px;
+  padding: 14px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-color: #18191f;
+  border-width: 2px;
+  border-radius: 18px;
+`;
+
+export const ButtonText = styled.Text`
+  font-size: 16px;
+  font-family: "Montserrat_400Regular";
+  color: #18191f;
+`;
