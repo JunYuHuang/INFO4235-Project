@@ -13,15 +13,9 @@ export const ListItemImage = styled.Image`
 `;
 
 export const ListItemText = styled.Text`
-  font-size: 12px;
+  font-size: 14px;
   font-family: "Montserrat_500Medium";
   font-weight: bold;
   color: #18191f;
-  max-width: calc(100%);
-  max-height: calc(30px + 8px);
-  height: calc(30px + 8px);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  whitespace: nowrap;
   padding-top: 8px;
 `;

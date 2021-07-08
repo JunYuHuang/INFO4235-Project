@@ -14,7 +14,9 @@ import {
   ResultListItemTextHeader,
   ResultListItemTextBody,
 } from "./SearchScreen.styled";
+import useWindowDimensions from "../lib/useWindowDimensions";
 import localSearchData from "../assets/localSearchData.json";
+import truncate from "truncate";
 
 // style={{
 //   shadowColor: "#000",
@@ -27,17 +29,8 @@ import localSearchData from "../assets/localSearchData.json";
 //   elevation: 3,
 // }}
 
-const Item = ({ item, onPress }) => (
-  <ResultListItem key={String(item.mal_id)} onPress={onPress}>
-    <ResultListItemImage source={item.image_url} />
-    <ResultListItemTextWrapper>
-      <ResultListItemTextHeader>{item.title}</ResultListItemTextHeader>
-      <ResultListItemTextBody>{item.synopsis}</ResultListItemTextBody>
-    </ResultListItemTextWrapper>
-  </ResultListItem>
-);
-
 export default function SearchScreen({ navigation }) {
+  const { width } = useWindowDimensions();
   const { spacing, colors } = useTheme();
   const [searchText, setSearchText] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -49,7 +42,26 @@ export default function SearchScreen({ navigation }) {
   }, []);
 
   const renderItem = ({ item }) => {
-    return <Item item={item} onPress={() => navigation.navigate("Detail")} />;
+    return (
+      <ResultListItem
+        key={String(item.mal_id)}
+        onPress={() =>
+          navigation.navigate("Detail", {
+            prevScreen: "SearchScreen",
+          })
+        }
+      >
+        <ResultListItemImage source={item.image_url} />
+        <ResultListItemTextWrapper style={{ maxWidth: (width - 64) * 0.6 }}>
+          <ResultListItemTextHeader>
+            {truncate(item.title, 35)}
+          </ResultListItemTextHeader>
+          <ResultListItemTextBody>
+            {truncate(item.synopsis, 110)}
+          </ResultListItemTextBody>
+        </ResultListItemTextWrapper>
+      </ResultListItem>
+    );
   };
 
   return (
@@ -60,7 +72,7 @@ export default function SearchScreen({ navigation }) {
         marginBottom: "-32px",
       }}
     >
-      <SearchFormWrapper>
+      <SearchFormWrapper style={{ width: width - 64 }}>
         <SearchTextInput
           placeholder="Search for anime..."
           onChangeText={(text) => setSearchText(text)}

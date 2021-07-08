@@ -16,14 +16,14 @@ import {
   BodyText,
   NotesTextInput,
 } from "./DetailScreen.styled";
+import BackButton from "../components/BackButton";
 import useWindowDimensions from "../lib/useWindowDimensions";
 import localSearchData from "../assets/localAnimeDetailData.json";
 
-export default function DetailScreen({ navigation }) {
+export default function DetailScreen({ route, navigation }) {
   const { width } = useWindowDimensions();
   const { spacing, colors } = useTheme();
   const [animeItem, setAnimeItem] = useState({});
-  // const { title, image_url, aired } = animeItem;
 
   useEffect(() => {
     // TODO: fetch user item
@@ -33,6 +33,12 @@ export default function DetailScreen({ navigation }) {
 
   const handleAddButton = () => {
     console.log("TODO: Add anime title to local SQLite database!");
+  };
+
+  const handleBackButton = () => {
+    const { prevScreen } = route.params;
+    let nextRoute = prevScreen === "SearchScreen" ? "Search" : "List";
+    navigation.navigate(nextRoute);
   };
 
   return (
@@ -45,6 +51,7 @@ export default function DetailScreen({ navigation }) {
     >
       <ScrollView>
         <HeadingWrapper>
+          <BackButton size={24} onPress={handleBackButton} />
           <H1Text>{localSearchData.title}</H1Text>
           <AddButtonWrapper>
             <Icon
@@ -85,6 +92,8 @@ export default function DetailScreen({ navigation }) {
           <NotesTextInput
             placeholder="Write your notes"
             defaultValue="This show sucks ass"
+            multiline
+            numberOfLines={20}
           />
         </ArticleBlock>
       </ScrollView>

@@ -10,6 +10,7 @@ import {
   ListItemText,
 } from "./ListScreen.styled";
 import useWindowDimensions from "../lib/useWindowDimensions";
+import truncate from "truncate";
 import localSearchData from "../assets/localSearchData.json";
 
 export default function ListScreen({ navigation }) {
@@ -29,7 +30,11 @@ export default function ListScreen({ navigation }) {
         style={{
           width: (width - 64) * 0.45,
         }}
-        onPress={() => navigation.navigate("Detail")}
+        onPress={() =>
+          navigation.navigate("Detail", {
+            prevScreen: "ListScreen",
+          })
+        }
       >
         <ListItemImage
           source={item.image_url}
@@ -38,7 +43,7 @@ export default function ListScreen({ navigation }) {
             height: (width - 64) * 0.45 * 1.4,
           }}
         />
-        <ListItemText>{item.title}</ListItemText>
+        <ListItemText>{truncate(item.title, 28)}</ListItemText>
       </ListItem>
     );
   };

@@ -38,7 +38,7 @@ export default function AppTabNav() {
         },
         labelStyle: {
           fontWeight: "bold",
-          fontSize: 12,
+          fontSize: 14,
           fontFamily: fontFamily.Montserrat_500Medium,
         },
       }}

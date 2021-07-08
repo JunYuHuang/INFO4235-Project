@@ -11,7 +11,6 @@ export const SearchFormWrapper = styled.View`
   flex-direction: row;
   justify-content: space-between;
   position: absolute;
-  width: calc(100% - 64px);
   z-index: 200;
 `;
 
@@ -20,6 +19,7 @@ export const SearchTextInput = styled.TextInput`
   font-family: "Montserrat_500Medium";
   color: #18191f;
   outline-color: transparent;
+  min-width: 200px;
 `;
 
 export const ResultList = styled.FlatList`
@@ -46,29 +46,19 @@ export const ResultListItemImage = styled.Image`
 
 export const ResultListItemTextWrapper = styled.View`
   padding-left: 20px;
-  max-width: calc(100% - 100px);
   overflow-x: none;
 `;
 
 export const ResultListItemTextHeader = styled.Text`
-  font-size: 12px;
+  font-size: 14px;
   font-family: "Montserrat_500Medium";
   font-weight: bold;
   color: #18191f;
   margin-bottom: 8px;
-  max-width: calc(100% - 10px);
-  max-height: 30px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  whitespace: nowrap;
 `;
 
 export const ResultListItemTextBody = styled.Text`
-  font-size: 12px;
+  font-size: 14px;
   font-family: "Montserrat_400Regular";
   color: #18191f;
-  max-width: calc(100% - 20px);
-  overflow: none;
-  text-overflow: ellipsis;
-  whitespace: nowrap;
 `;
