@@ -52,6 +52,14 @@ export const AddButtonWrapper = styled.TouchableOpacity`
   align-item: center;
 `;
 
+export const DeleteButtonWrapper = styled.TouchableOpacity`
+  padding-left: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-item: center;
+`;
+
 export const FullImage = styled.Image`
   border-radius: 18px;
   border-color: #18191f;

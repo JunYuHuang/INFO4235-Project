@@ -9,6 +9,7 @@ import {
   H2Text,
   H3Text,
   AddButtonWrapper,
+  DeleteButtonWrapper,
   FullImage,
   AnimeDetailsContainer,
   AnimeDetail,
@@ -22,40 +23,73 @@ import {
 import BackButton from "../components/BackButton";
 import LoadingDisplay from "../components/LoadingDisplay";
 import useWindowDimensions from "../lib/useWindowDimensions";
-import localSearchData from "../assets/localAnimeDetailData.json";
-import { getTextFromGenresArray, findAnimeByID } from "../lib/jikanAPIHelper";
+import {
+  getTextFromGenresArray,
+  findAnimeByID,
+  getObjectQuantitySuffix,
+} from "../lib/jikanAPIHelper";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectAnimeDetail,
+  setAnimeDetail,
+  clearAnimeDetail,
+  loadAnimeDetailFromLocal,
+  loadAnimeDetailFromAPIAsync,
+} from "../redux/animeDetailSlice";
+import {
+  selectUserDataList,
+  clearUserData,
+  addUserDataListItem,
+  deleteUserDataListItem,
+  editUserDataListItemNotes,
+} from "../redux/userDataSlice";
+import { store } from "../redux/store";
 
-function getObjectQuantitySuffix(array) {
-  return array.length === 0 || array.length > 1 ? "s" : "";
-}
+const { getState } = store;
 
 export default function DetailScreen({ route, navigation }) {
   const { width } = useWindowDimensions();
   const { spacing, colors } = useTheme();
+  // const { animeID } = route.params;
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isInUserList, setIsInUserList] = useState(false);
   const [animeItem, setAnimeItem] = useState({});
+  // const dispatch = useDispatch();
+  // const animeItem = useSelector(selectAnimeDetail);
 
   useEffect(() => {
     // TODO: fetch user item
-    // setAnimeItem(localSearchData);
     const { animeID } = route.params;
 
     findAnimeByID(animeID)
       .then((anime) => {
         setAnimeItem(anime);
         setIsLoaded(true);
+        // dispatch(setAnimeDetail(anime));
       })
       .catch((err) => {
         console.log(err);
       });
+    // dispatch(loadAnimeDetailFromAPIAsync(animeID));
+    // dispatch(loadAnimeDetailFromLocal());
 
     return () => {
       setAnimeItem({});
+      // dispatch(clearAnimeDetail());
     };
   }, []);
 
+  // useEffect(() => {
+  //   animeItem === {} ? setIsLoaded(false) : setIsLoaded(true);
+  //   // console.log(animeItem);
+  // }, [animeItem]);
+
   const handleAddButton = () => {
     console.log("TODO: Add anime title to local SQLite database!");
+  };
+
+  const handleDeleteButton = () => {
+    console.log("TODO: Remove anime title to local SQLite database!");
   };
 
   const handleBackButton = () => {
@@ -93,14 +127,25 @@ export default function DetailScreen({ route, navigation }) {
           <HeadingWrapper>
             <BackButton size={24} onPress={handleBackButton} />
             <H1Text>{animeItem.title}</H1Text>
-            <AddButtonWrapper>
-              <Icon
-                name="add-sharp"
-                color={colors.veryDarkBlack}
-                size="28px"
-                onPress={handleAddButton}
-              />
-            </AddButtonWrapper>
+            {isInUserList ? (
+              <DeleteButtonWrapper onPress={handleDeleteButton}>
+                <Icon
+                  name="trash-outline"
+                  color={colors.veryDarkBlack}
+                  size="24px"
+                  onPress={handleAddButton}
+                />
+              </DeleteButtonWrapper>
+            ) : (
+              <AddButtonWrapper onPress={handleAddButton}>
+                <Icon
+                  name="add-sharp"
+                  color={colors.veryDarkBlack}
+                  size="28px"
+                  onPress={handleAddButton}
+                />
+              </AddButtonWrapper>
+            )}
           </HeadingWrapper>
           <FullImage
             style={{

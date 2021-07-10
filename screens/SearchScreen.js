@@ -16,50 +16,40 @@ import {
 import LoadingDisplay from "../components/LoadingDisplay";
 import useWindowDimensions from "../lib/useWindowDimensions";
 import truncate from "truncate";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  getLocalSearchResults,
-  getAllCurrentSeasonalAnime,
-  findAllAnimeBySearchTerm,
-} from "../lib/jikanAPIHelper";
+  selectAnimeResults,
+  loadDefaultAnimeResultsFromAPIAsync,
+  loadAnimeResultsFromLocal,
+  loadAnimeResultsFromAPIAsync,
+  clearAnimeResults,
+} from "../redux/animeResultsSlice";
 
 export default function SearchScreen({ navigation }) {
   const { width } = useWindowDimensions();
   const { spacing, colors } = useTheme();
   const [isLoaded, setIsLoaded] = useState(false);
   const [searchText, setSearchText] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-
-  // TODO: fetch default search results
-  // getAllCurrentSeasonalAnime()
-  //   .then((results) => {
-  //     setSearchResults(results);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
-
-  // temp commented above to avoid abusing JikanAPI on refresh
+  const dispatch = useDispatch();
+  const searchResults = useSelector(selectAnimeResults);
 
   useEffect(() => {
-    setSearchResults(getLocalSearchResults);
+    // temp commented below to avoid abusing JikanAPI on refresh
+    // dispatch(loadDefaultAnimeResultsFromAPIAsync());
+
+    dispatch(loadAnimeResultsFromLocal());
     setIsLoaded(true);
 
     return () => {
-      setSearchResults([]);
+      dispatch(clearAnimeResults());
       setIsLoaded(false);
     };
   }, []);
 
   const handleSearchSubmitButton = () => {
     if (searchText !== "") {
-      findAllAnimeBySearchTerm(searchText)
-        .then((results) => {
-          setSearchResults(results);
-          setSearchText("");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      dispatch(loadAnimeResultsFromAPIAsync(searchText));
+      setSearchText("");
     }
   };
 

@@ -17,21 +17,24 @@ import {
 import useWindowDimensions from "../lib/useWindowDimensions";
 import truncate from "truncate";
 // import localSearchData from "../assets/localSearchData.json";
+import { useSelector } from "react-redux";
+import { selectUserDataList } from "../redux/userDataSlice";
 
 export default function ListScreen({ navigation }) {
   const { width } = useWindowDimensions();
   const { spacing, colors } = useTheme();
-  const [userList, setUserList] = useState([]);
+  // const [userList, setUserList] = useState([]);
+  const userList = useSelector(selectUserDataList);
 
-  useEffect(() => {
-    // TODO: fetch user list
-    // setUserList(localSearchData.results);
-    console.log(userList);
+  // useEffect(() => {
+  //   // TODO: fetch user list
+  //   // setUserList(localSearchData.results);
+  //   console.log(userList);
 
-    return () => {
-      setUserList([]);
-    };
-  }, []);
+  //   return () => {
+  //     // setUserList([]);
+  //   };
+  // }, []);
 
   // onPress={() =>
   //   navigation.navigate("SearchStackNav", {
