@@ -32,7 +32,7 @@ export const H3Text = styled.Text`
 
 export const AnimeDetailsContainer = styled.View`
   margin-top: 16px;
-  margin-bottom: 2px;
+  margin-bottom: 10px;
 `;
 
 export const AnimeDetail = styled.View`
@@ -81,7 +81,8 @@ export const BottomBackButtonWrapper = styled.View`
 `;
 
 export const BottomBackButton = styled.TouchableOpacity`
-  width: 200px;
+  min-width: 180px;
+  max-width: 220px;
   padding: 14px;
   display: flex;
   flex-direction: row;

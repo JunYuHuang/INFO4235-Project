@@ -16,6 +16,6 @@ This is a mobile app that lets users find and build their anime list.
 - React Native Vector Icons
 - Jikan v3 API
 
-## Colour Palette
+## TODO / Backlog
 
-- #18191f
+- update Back button and Heading text sizes on About and Settings screen to be consistent with rest of Screen pages
