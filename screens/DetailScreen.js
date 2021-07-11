@@ -47,15 +47,31 @@ import { store } from "../redux/store";
 
 const { getState } = store;
 
+function isAnimeInUserList(userList, id) {
+  let found = false;
+  if (Array.isArray(userList)) {
+    userList.forEach((item) => {
+      if (Number(item.id) === Number(id)) {
+        found = true;
+      }
+    });
+  }
+  return found;
+}
+
 export default function DetailScreen({ route, navigation }) {
   const { width } = useWindowDimensions();
   const { spacing, colors } = useTheme();
-  // const { animeID } = route.params;
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [isInUserList, setIsInUserList] = useState(false);
-  const [animeItem, setAnimeItem] = useState({});
-  // const dispatch = useDispatch();
+  const { animeID } = route.params;
   // const animeItem = useSelector(selectAnimeDetail);
+  const userList = useSelector(selectUserDataList);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isInUserList, setIsInUserList] = useState(
+    isAnimeInUserList(userList, animeID)
+  );
+  const [animeItem, setAnimeItem] = useState({});
+  const [userNotes, setUserNotes] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // TODO: fetch user item
@@ -73,40 +89,53 @@ export default function DetailScreen({ route, navigation }) {
     // dispatch(loadAnimeDetailFromAPIAsync(animeID));
     // dispatch(loadAnimeDetailFromLocal());
 
+    // console.log("userList:");
+    // console.log(userList);
+    // setIsInUserList(isAnimeInUserList(userList, animeID));
+    // console.log(`Anime is in user's list? ${isInUserList}`);
+
     return () => {
       setAnimeItem({});
       // dispatch(clearAnimeDetail());
     };
   }, []);
 
-  // useEffect(() => {
-  //   animeItem === {} ? setIsLoaded(false) : setIsLoaded(true);
-  //   // console.log(animeItem);
-  // }, [animeItem]);
+  useEffect(() => {
+    console.log("userList:");
+    console.log(userList);
+    setIsInUserList(isAnimeInUserList(userList, animeID));
+    console.log(`Anime is in user's list? ${isInUserList}`);
+  }, [userList]);
 
   const handleAddButton = () => {
     console.log("TODO: Add anime title to local SQLite database!");
+    const { mal_id, title, image_url, userNotes } = animeItem;
+    dispatch(
+      addUserDataListItem({
+        id: mal_id,
+        title: title,
+        imgURL: image_url,
+        notes: userNotes,
+      })
+    );
+    console.log(userList);
   };
 
   const handleDeleteButton = () => {
     console.log("TODO: Remove anime title to local SQLite database!");
+    const { mal_id } = animeItem;
+    dispatch(deleteUserDataListItem({ id: mal_id }));
+    console.log(userList);
+  };
+
+  const handleEditButton = () => {
+    console.log(
+      "TODO: Edit anime title's notes property in local SQLite database!"
+    );
   };
 
   const handleBackButton = () => {
     navigation.goBack();
-    // navigation.pop();
-    // const { prevScreen } = route.params;
-    // if (prevScreen === "SearchScreen") {
-    //   navigation.navigate("Search");
-    // } else if (prevScreen === "ListScreen") {
-    //   navigation.navigate("ListStackNav", { screen: "List" });
-    // } else {
-    //   // something went wrong
-    //   navigation.navigate("SettingsStackNav");
-    // }
-    // return prevScreen === "SearchScreen"
-    //   ? navigation.navigate("Search")
-    //   : navigation.navigate("ListStackNav", { screen: "List" });
   };
 
   const getPreviousScreenName = () => {
@@ -133,7 +162,6 @@ export default function DetailScreen({ route, navigation }) {
                   name="trash-outline"
                   color={colors.veryDarkBlack}
                   size="24px"
-                  onPress={handleAddButton}
                 />
               </DeleteButtonWrapper>
             ) : (
@@ -142,7 +170,6 @@ export default function DetailScreen({ route, navigation }) {
                   name="add-sharp"
                   color={colors.veryDarkBlack}
                   size="28px"
-                  onPress={handleAddButton}
                 />
               </AddButtonWrapper>
             )}
@@ -179,8 +206,9 @@ export default function DetailScreen({ route, navigation }) {
           <ArticleBlock>
             <H2Text>Your Notes</H2Text>
             <NotesTextInput
-              placeholder="Write your notes"
-              defaultValue="This show sucks ass"
+              placeholder="Write some notes"
+              // defaultValue="This show sucks ass"
+              editable={isInUserList}
               multiline
               numberOfLines={10}
             />

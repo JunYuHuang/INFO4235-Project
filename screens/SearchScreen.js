@@ -49,7 +49,7 @@ export default function SearchScreen({ navigation }) {
   const handleSearchSubmitButton = () => {
     if (searchText !== "") {
       dispatch(loadAnimeResultsFromAPIAsync(searchText));
-      setSearchText("");
+      // setSearchText("");
     }
   };
 

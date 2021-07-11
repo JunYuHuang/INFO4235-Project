@@ -16,35 +16,25 @@ import {
 } from "./ListScreen.styled";
 import useWindowDimensions from "../lib/useWindowDimensions";
 import truncate from "truncate";
-// import localSearchData from "../assets/localSearchData.json";
 import { useSelector } from "react-redux";
 import { selectUserDataList } from "../redux/userDataSlice";
+
+function getArrayLength(array) {
+  let length = 0;
+  if (Array.isArray(array) || array) {
+    length = array.length;
+  }
+  return length;
+}
 
 export default function ListScreen({ navigation }) {
   const { width } = useWindowDimensions();
   const { spacing, colors } = useTheme();
-  // const [userList, setUserList] = useState([]);
   const userList = useSelector(selectUserDataList);
 
-  // useEffect(() => {
-  //   // TODO: fetch user list
-  //   // setUserList(localSearchData.results);
-  //   console.log(userList);
-
-  //   return () => {
-  //     // setUserList([]);
-  //   };
-  // }, []);
-
-  // onPress={() =>
-  //   navigation.navigate("SearchStackNav", {
-  //     screen: "Detail",
-  //     params: {
-  //       prevScreen: "ListScreen",
-  //       animeID: item.mal_id,
-  //     },
-  //   })
-  // }
+  useEffect(() => {
+    console.log(userList);
+  }, []);
 
   const renderItem = ({ item }) => {
     return (
@@ -55,12 +45,12 @@ export default function ListScreen({ navigation }) {
         onPress={() =>
           navigation.push("Detail", {
             prevScreen: "ListScreen",
-            animeID: item.mal_id,
+            animeID: item.id,
           })
         }
       >
         <ListItemImage
-          source={item.image_url}
+          source={item.imgURL}
           style={{
             width: (width - 64) * 0.45,
             height: (width - 64) * 0.45 * 1.4,
@@ -79,12 +69,12 @@ export default function ListScreen({ navigation }) {
         marginBottom: "-32px",
       }}
     >
-      {userList.length > 1 ? (
+      {getArrayLength(userList) > 0 ? (
         <List
           data={userList}
           numColumns={2}
           renderItem={renderItem}
-          keyExtractor={(item) => String(item.mal_id)}
+          keyExtractor={(item) => String(item.id)}
           columnWrapperStyle={{
             justifyContent: "space-between",
           }}

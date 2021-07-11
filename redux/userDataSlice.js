@@ -2,11 +2,13 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 function isListItemUnique(array, id) {
   let unique = true;
-  array.forEach((item) => {
-    if (item.id === id) {
-      return false;
-    }
-  });
+  if (Array.isArray(array)) {
+    array.forEach((item) => {
+      if (Number(item.id) === Number(id)) {
+        unique = false;
+      }
+    });
+  }
   return unique;
 }
 
@@ -27,6 +29,14 @@ export const userDataSlice = createSlice({
     },
     addUserDataListItem: (state, action) => {
       const { id, title, imgURL, notes } = action.payload;
+      // if (isListItemUnique(state.list, id)) {
+      //   state.list.push({
+      //     id: id,
+      //     title: title,
+      //     imgURL: imgURL,
+      //     notes: notes,
+      //   });
+      // }
       return isListItemUnique(state.list, id)
         ? {
             ...state,
@@ -40,18 +50,18 @@ export const userDataSlice = createSlice({
               },
             ],
           }
-        : {
-            ...state,
-            list: [...state.list],
-          };
+        : state;
     },
     deleteUserDataListItem: (state, action) => {
       const { id } = action.payload;
-      return state.list.filter((item) => item.id !== id);
+      const newList = state.list.filter((item) => item.id !== id);
+      return {
+        list: newList,
+      };
     },
     editUserDataListItemNotes: (state, action) => {
       const { id, notes } = action.payload;
-      return state.list.map((item) => {
+      const newList = state.list.map((item) => {
         item.id === id
           ? {
               ...item,
@@ -59,6 +69,9 @@ export const userDataSlice = createSlice({
             }
           : item;
       });
+      return {
+        list: newList,
+      };
     },
   },
 });
