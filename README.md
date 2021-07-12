@@ -24,3 +24,4 @@ This is a mobile app that lets users explore anime titles and build their anime 
 - Add pagination or infinite scrolling to the SearchScreen
 - Add SQLite functionality for saving data to local persistent storage
 - Debug and fix app so that it works on Android (via Android Studio AVD Emulator)
+- Force focus on TextInput on DetailScreen when user presses "Edit" button

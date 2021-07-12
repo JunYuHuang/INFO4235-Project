@@ -44,7 +44,7 @@ export const ArticleBlock = styled.View`
   margin-bottom: 16px;
 `;
 
-export const AddButtonWrapper = styled.TouchableOpacity`
+export const ActionButtonWrapper = styled.TouchableOpacity`
   padding-left: 16px;
   display: flex;
   flex-direction: row;
@@ -52,12 +52,16 @@ export const AddButtonWrapper = styled.TouchableOpacity`
   align-item: center;
 `;
 
-export const DeleteButtonWrapper = styled.TouchableOpacity`
-  padding-left: 16px;
+export const ActionButtonWithTextWrapper = styled.TouchableOpacity`
+  margin-bottom: 10px;
+  padding: 3px 10px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-item: center;
+  border-color: #18191f;
+  border-width: 2px;
+  border-radius: 10px;
 `;
 
 export const FullImage = styled.Image`
@@ -73,6 +77,13 @@ export const BodyText = styled.Text`
   color: #18191f;
 `;
 
+export const NotesHeaderWrapper = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 export const NotesTextInput = styled.TextInput`
   font-size: 14px;
   font-family: "Montserrat_400Regular";
@@ -82,6 +93,7 @@ export const NotesTextInput = styled.TextInput`
 `;
 
 export const BottomBackButtonWrapper = styled.View`
+  margin-top: 32px;
   margin-bottom: 32px;
   display: flex;
   flex-direction: row;
@@ -103,6 +115,12 @@ export const BottomBackButton = styled.TouchableOpacity`
 
 export const ButtonText = styled.Text`
   font-size: 16px;
+  font-family: "Montserrat_400Regular";
+  color: #18191f;
+`;
+
+export const ButtonTextSmall = styled.Text`
+  font-size: 14px;
   font-family: "Montserrat_400Regular";
   color: #18191f;
 `;
