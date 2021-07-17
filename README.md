@@ -23,6 +23,7 @@ This is a mobile app that lets users explore anime titles and build their anime 
 - Add SQLite functionality for saving data to local persistent storage
 - Force focus on TextInput on DetailScreen when user presses "Edit" button for notes (currently very clunky)
 - Force unfocus on TextInput on DetailScreen when user presses "Save" button for notes
+- Something
 
 ## Completed TODOs
 

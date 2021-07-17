@@ -20,6 +20,7 @@ export default function SearchStackNav() {
         name="Detail"
         component={DetailScreen}
         options={{ title: "Detail" }}
+        initialParam={{ animeID: 9253 }}
       />
     </Stack.Navigator>
   );

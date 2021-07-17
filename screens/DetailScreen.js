@@ -146,7 +146,7 @@ export default function DetailScreen({ route, navigation }) {
   const handleEditButton = () => {
     if (isAnimeInUserList(userList, animeID)) {
       setIsEditing(true);
-      notesTextInputRef.current.focus();
+      // notesTextInputRef.current.focus();
     } else {
       console.log("Cannot edit notes because anime is not in user's list!");
     }
