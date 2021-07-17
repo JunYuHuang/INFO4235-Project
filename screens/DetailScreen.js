@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, SafeAreaView, ScrollView, Button } from "react-native";
-import styled from "styled-components/native";
+import React, { useState, useEffect, useRef } from "react";
+import { ScrollView, Keyboard } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useTheme } from "@react-navigation/native";
 import {
@@ -22,6 +21,7 @@ import {
   ButtonTextSmall,
   NotesHeaderWrapper,
 } from "./DetailScreen.styled";
+import { ScreenWrapperView } from "../components/ScreenWrapper.styled";
 import BackButton from "../components/BackButton";
 import LoadingDisplay from "../components/LoadingDisplay";
 import useWindowDimensions from "../lib/useWindowDimensions";
@@ -40,7 +40,6 @@ import {
 } from "../redux/animeDetailSlice";
 import {
   selectUserDataList,
-  clearUserData,
   addUserDataListItem,
   deleteUserDataListItem,
   editUserDataListItemNotes,
@@ -52,17 +51,13 @@ const { getState } = store;
 function isAnimeInUserList(userList, id) {
   let found = false;
   if (Array.isArray(userList)) {
-    if (userList == [] || userList === []) {
-      //
-    } else {
-      userList.forEach((item) => {
-        if (Number(item.id) === Number(id)) {
-          found = true;
-        }
-      });
-    }
+    userList.forEach((item) => {
+      if (Number(item.id) === Number(id)) {
+        found = true;
+      }
+    });
   }
-  console.log("Inside isAnimeInUserList()");
+  console.log(`isAnimeInUserList()? ${found}`);
   console.log("userList : ");
   console.log(userList);
   return found;
@@ -87,6 +82,7 @@ export default function DetailScreen({ route, navigation }) {
   const [animeItem, setAnimeItem] = useState({});
   const [userNotes, setUserNotes] = useState("");
   const [isEditing, setIsEditing] = useState(false);
+  const notesTextInputRef = useRef();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -96,10 +92,13 @@ export default function DetailScreen({ route, navigation }) {
     findAnimeByID(animeID)
       .then((anime) => {
         setAnimeItem(anime);
-        setIsLoaded(true);
         // dispatch(setAnimeDetail(anime));
         setUserNotes(getUserNotes(userList, animeID));
         setIsInUserList(isAnimeInUserList(userList, animeID));
+      })
+      .then(() => {
+        console.log(`isInUserList? ${isInUserList}`);
+        setIsLoaded(true);
       })
       .catch((err) => {
         console.log(err);
@@ -146,9 +145,8 @@ export default function DetailScreen({ route, navigation }) {
 
   const handleEditButton = () => {
     if (isAnimeInUserList(userList, animeID)) {
-      console.log(`Allow user to edit? ${isEditing}`);
       setIsEditing(true);
-      console.log(`Allow user to edit? ${isEditing}`);
+      notesTextInputRef.current.focus();
     } else {
       console.log("Cannot edit notes because anime is not in user's list!");
     }
@@ -161,6 +159,7 @@ export default function DetailScreen({ route, navigation }) {
       );
       dispatch(editUserDataListItemNotes({ id: animeID, notes: userNotes }));
       setIsEditing(false);
+      Keyboard.dismiss();
     }
   };
 
@@ -174,33 +173,25 @@ export default function DetailScreen({ route, navigation }) {
   };
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        padding: spacing.screenPadding,
-        marginBottom: "-32px",
-      }}
-    >
+    <ScreenWrapperView>
       {isLoaded ? (
         <ScrollView>
           <HeadingWrapper>
             <BackButton size={24} onPress={handleBackButton} />
-            <H1Text>{animeItem.title}</H1Text>
+            <H1Text style={{ maxWidth: (width - 64) * 0.7 }}>
+              {animeItem.title}
+            </H1Text>
             {isInUserList ? (
               <ActionButtonWrapper onPress={handleDeleteButton}>
                 <Icon
                   name="trash-outline"
                   color={colors.veryDarkBlack}
-                  size="24px"
+                  size={24}
                 />
               </ActionButtonWrapper>
             ) : (
               <ActionButtonWrapper onPress={handleAddButton}>
-                <Icon
-                  name="add-sharp"
-                  color={colors.veryDarkBlack}
-                  size="28px"
-                />
+                <Icon name="add-sharp" color={colors.veryDarkBlack} size={28} />
               </ActionButtonWrapper>
             )}
           </HeadingWrapper>
@@ -209,29 +200,46 @@ export default function DetailScreen({ route, navigation }) {
               width: width - 64,
               height: (width - 64) * 1.4,
             }}
-            source={animeItem.image_url}
+            source={{ uri: animeItem.image_url }}
           />
           <AnimeDetailsContainer>
             <AnimeDetail>
-              <H3Text>Genre{getObjectQuantitySuffix(animeItem.genres)}</H3Text>
-              <BodyText>{getTextFromGenresArray(animeItem.genres)}</BodyText>
+              <H3Text>
+                Genre
+                {getObjectQuantitySuffix(animeItem.genres)
+                  ? getObjectQuantitySuffix(animeItem.genres)
+                  : ""}
+              </H3Text>
+              <BodyText>
+                {getTextFromGenresArray(animeItem.genres)
+                  ? getTextFromGenresArray(animeItem.genres)
+                  : "Unknown"}
+              </BodyText>
             </AnimeDetail>
             <AnimeDetail>
               <H3Text>Aired</H3Text>
-              <BodyText>{animeItem.aired.string}</BodyText>
+              <BodyText>
+                {animeItem.aired.string ? animeItem.aired.string : "Unknown"}
+              </BodyText>
             </AnimeDetail>
             <AnimeDetail>
               <H3Text>Episodes</H3Text>
-              <BodyText>{animeItem.episodes}</BodyText>
+              <BodyText>
+                {animeItem.episodes ? animeItem.episodes : "Unknown"}
+              </BodyText>
             </AnimeDetail>
             <AnimeDetail>
               <H3Text>User Rating</H3Text>
-              <BodyText>{animeItem.score} / 10</BodyText>
+              <BodyText>
+                {animeItem.score ? `${animeItem.score} / 10` : "Not yet rated"}
+              </BodyText>
             </AnimeDetail>
           </AnimeDetailsContainer>
           <ArticleBlock>
             <H2Text>Synopsis</H2Text>
-            <BodyText>{animeItem.synopsis}</BodyText>
+            <BodyText>
+              {animeItem.synopsis ? animeItem.synopsis : "Unknown"}
+            </BodyText>
           </ArticleBlock>
           <ArticleBlock>
             <NotesHeaderWrapper>
@@ -241,7 +249,7 @@ export default function DetailScreen({ route, navigation }) {
                   <Icon
                     name="save-outline"
                     color={colors.veryDarkBlack}
-                    size="12px"
+                    size={12}
                     style={{ paddingTop: 2 }}
                   />
                   <ButtonTextSmall style={{ paddingLeft: 8 }}>
@@ -253,7 +261,7 @@ export default function DetailScreen({ route, navigation }) {
                   <Icon
                     name="pencil-sharp"
                     color={colors.veryDarkBlack}
-                    size="12px"
+                    size={12}
                     style={{ paddingTop: 2 }}
                   />
                   <ButtonTextSmall style={{ paddingLeft: 8 }}>
@@ -263,13 +271,14 @@ export default function DetailScreen({ route, navigation }) {
               )}
             </NotesHeaderWrapper>
             <NotesTextInput
+              ref={notesTextInputRef}
               placeholder="Write some notes"
               onChangeText={(text) => setUserNotes(text)}
               onSubmitEditing={handleSaveButton}
               value={userNotes}
               editable={isInUserList && isEditing}
               multiline
-              numberOfLines={10}
+              numberOfLines={1}
             />
           </ArticleBlock>
           <BottomBackButtonWrapper>
@@ -282,6 +291,8 @@ export default function DetailScreen({ route, navigation }) {
       ) : (
         <LoadingDisplay />
       )}
-    </SafeAreaView>
+    </ScreenWrapperView>
   );
 }
+
+// editable={isInUserList && isEditing}

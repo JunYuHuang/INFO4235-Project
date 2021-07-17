@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { SafeAreaView } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import {
@@ -14,6 +13,7 @@ import {
   ListItemImage,
   ListItemText,
 } from "./ListScreen.styled";
+import { ScreenWrapperView } from "../components/ScreenWrapper.styled";
 import useWindowDimensions from "../lib/useWindowDimensions";
 import truncate from "truncate";
 import { useSelector } from "react-redux";
@@ -29,7 +29,7 @@ function getArrayLength(array) {
 
 export default function ListScreen({ navigation }) {
   const { width } = useWindowDimensions();
-  const { spacing, colors } = useTheme();
+  const { colors } = useTheme();
   const userList = useSelector(selectUserDataList);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function ListScreen({ navigation }) {
         }
       >
         <ListItemImage
-          source={item.imgURL}
+          source={{ uri: item.imgURL }}
           style={{
             width: (width - 64) * 0.45,
             height: (width - 64) * 0.45 * 1.4,
@@ -62,13 +62,7 @@ export default function ListScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        padding: spacing.screenPadding,
-        marginBottom: "-32px",
-      }}
-    >
+    <ScreenWrapperView>
       {getArrayLength(userList) > 0 ? (
         <List
           data={userList}
@@ -100,6 +94,6 @@ export default function ListScreen({ navigation }) {
           </GoToButton>
         </EmptyListPageWrapper>
       )}
-    </SafeAreaView>
+    </ScreenWrapperView>
   );
 }

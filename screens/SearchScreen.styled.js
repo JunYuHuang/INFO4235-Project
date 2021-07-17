@@ -10,7 +10,6 @@ export const SearchFormWrapper = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  position: absolute;
   z-index: 200;
 `;
 
@@ -18,12 +17,11 @@ export const SearchTextInput = styled.TextInput`
   font-size: 18px;
   font-family: "Montserrat_500Medium";
   color: #18191f;
-  outline-color: transparent;
   min-width: 200px;
 `;
 
 export const ResultList = styled.FlatList`
-  margin-top: calc(61px + 32px);
+  margin-top: 32px;
 `;
 
 export const ResultListItem = styled.TouchableOpacity`
@@ -33,7 +31,7 @@ export const ResultListItem = styled.TouchableOpacity`
   border-bottom-width: 2px;
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  justify-content: flex-start;
 `;
 
 export const ResultListItemImage = styled.Image`
@@ -46,7 +44,6 @@ export const ResultListItemImage = styled.Image`
 
 export const ResultListItemTextWrapper = styled.View`
   padding-left: 20px;
-  overflow-x: none;
 `;
 
 export const ResultListItemTextHeader = styled.Text`

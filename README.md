@@ -19,9 +19,13 @@ This is a mobile app that lets users explore anime titles and build their anime 
 ## TODO / Backlog
 
 - Update Back button and Heading text sizes on About and Settings screen to be consistent with rest of Screen pages
-- Add "X" icon button on SearchScreen for easy access to clear the current search query / term
-- Force vertical FlatList on SearchScreen to automatically scroll to the top when a new search term has returned new results
 - Add pagination or infinite scrolling to the SearchScreen
 - Add SQLite functionality for saving data to local persistent storage
+- Force focus on TextInput on DetailScreen when user presses "Edit" button for notes (currently very clunky)
+- Force unfocus on TextInput on DetailScreen when user presses "Save" button for notes
+
+## Completed TODOs
+
 - Debug and fix app so that it works on Android (via Android Studio AVD Emulator)
-- Force focus on TextInput on DetailScreen when user presses "Edit" button
+- Add "X" icon button on SearchScreen for easy access to clear the current search query / term
+- Force vertical FlatList on SearchScreen to automatically scroll to the top when a new search term has returned new results

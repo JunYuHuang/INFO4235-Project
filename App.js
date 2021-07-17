@@ -1,17 +1,37 @@
 import "react-native-gesture-handler";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import AppTabNav from "./navigators/AppTabNav";
 import globalTheme from "./styles/globalTheme";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
+import {
+  useFonts,
+  Montserrat_400Regular,
+  Montserrat_500Medium,
+} from "@expo-google-fonts/montserrat";
+import LoadingDisplay from "./components/LoadingDisplay";
 
 export default function App() {
-  return (
-    <NavigationContainer theme={globalTheme}>
+  let [fontsLoaded, error] = useFonts({
+    Montserrat_400Regular,
+    Montserrat_500Medium,
+  });
+
+  useEffect(() => {
+    console.log("Inside App.js!");
+    console.log(error);
+  }, [fontsLoaded, error]);
+
+  if (!fontsLoaded) {
+    return <LoadingDisplay />;
+  } else {
+    return (
       <Provider store={store}>
-        <AppTabNav />
+        <NavigationContainer theme={globalTheme}>
+          <AppTabNav />
+        </NavigationContainer>
       </Provider>
-    </NavigationContainer>
-  );
+    );
+  }
 }
