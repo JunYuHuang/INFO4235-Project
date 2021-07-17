@@ -49,7 +49,7 @@ export const ActionButtonWrapper = styled.TouchableOpacity`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-item: center;
+  align-items: center;
 `;
 
 export const ActionButtonWithTextWrapper = styled.TouchableOpacity`
@@ -58,7 +58,7 @@ export const ActionButtonWithTextWrapper = styled.TouchableOpacity`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-item: center;
+  align-items: center;
   border-color: #18191f;
   border-width: 2px;
   border-radius: 10px;
@@ -84,11 +84,12 @@ export const NotesHeaderWrapper = styled.View`
   align-items: center;
 `;
 
+// outline-color: transparent;
+
 export const NotesTextInput = styled.TextInput`
   font-size: 14px;
   font-family: "Montserrat_400Regular";
   color: #18191f;
-  outline-color: transparent;
   line-height: 28px;
 `;
 

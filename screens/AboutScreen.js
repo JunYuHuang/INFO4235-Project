@@ -1,20 +1,15 @@
 import React from "react";
-import { View, Text, SafeAreaView } from "react-native";
-import { useTheme } from "@react-navigation/native";
-import styled from "styled-components/native";
-import Icon from "react-native-vector-icons/Ionicons";
 import {
   BodyText,
   HeadingText,
   HeadingTextWrapper,
 } from "./AboutScreen.styled";
 import BackButton from "../components/BackButton";
+import { ScreenWrapperView } from "../components/ScreenWrapper.styled";
 
 export default function AboutScreen({ navigation }) {
-  const { spacing } = useTheme();
-
   return (
-    <SafeAreaView style={{ padding: spacing.screenPadding }}>
+    <ScreenWrapperView>
       <HeadingTextWrapper>
         <BackButton onPress={() => navigation.navigate("Settings")} />
         <HeadingText>About</HeadingText>
@@ -24,6 +19,6 @@ export default function AboutScreen({ navigation }) {
         Wong.
       </BodyText>
       <BodyText>&copy; 2021</BodyText>
-    </SafeAreaView>
+    </ScreenWrapperView>
   );
 }

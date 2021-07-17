@@ -5,5 +5,5 @@ export const ButtonWrapper = styled.TouchableOpacity`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-item: center;
+  align-items: center;
 `;

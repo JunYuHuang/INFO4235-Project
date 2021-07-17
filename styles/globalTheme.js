@@ -13,7 +13,7 @@ const globalTheme = {
     Montserrat_500Medium: "Montserrat_500Medium",
   },
   spacing: {
-    screenPadding: "32px",
+    screenPadding: 32,
   },
 };
 

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { SafeAreaView } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { View } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import {
@@ -14,6 +14,7 @@ import {
   ResultListItemTextBody,
 } from "./SearchScreen.styled";
 import LoadingDisplay from "../components/LoadingDisplay";
+import { ScreenWrapperView } from "../components/ScreenWrapper.styled";
 import useWindowDimensions from "../lib/useWindowDimensions";
 import truncate from "truncate";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,15 +28,23 @@ import {
 
 export default function SearchScreen({ navigation }) {
   const { width } = useWindowDimensions();
-  const { spacing, colors } = useTheme();
+  const { colors } = useTheme();
   const [isLoaded, setIsLoaded] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const resultListRef = useRef();
   const dispatch = useDispatch();
   const searchResults = useSelector(selectAnimeResults);
 
   useEffect(() => {
     // temp commented below to avoid abusing JikanAPI on refresh
-    // dispatch(loadDefaultAnimeResultsFromAPIAsync());
+    // dispatch(loadDefaultAnimeResultsFromAPIAsync())
+    //   .unwrap()
+    //   .then(() => {
+    //     setIsLoaded(true);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
 
     dispatch(loadAnimeResultsFromLocal());
     setIsLoaded(true);
@@ -46,10 +55,26 @@ export default function SearchScreen({ navigation }) {
     };
   }, []);
 
+  useEffect(() => {
+    // show default anime results
+    if (searchText === "") {
+      dispatch(loadAnimeResultsFromLocal());
+      setIsLoaded(true);
+    }
+  }, [searchText]);
+
+  const handleClearSearchText = () => {
+    setSearchText("");
+  };
+
+  const scrollListToTop = () => {
+    resultListRef.current.scrollToOffset({ animated: true, offset: 0 });
+  };
+
   const handleSearchSubmitButton = () => {
     if (searchText !== "") {
       dispatch(loadAnimeResultsFromAPIAsync(searchText));
-      // setSearchText("");
+      scrollListToTop();
     }
   };
 
@@ -64,7 +89,7 @@ export default function SearchScreen({ navigation }) {
           })
         }
       >
-        <ResultListItemImage source={item.image_url} />
+        <ResultListItemImage source={{ uri: item.image_url }} />
         <ResultListItemTextWrapper style={{ maxWidth: (width - 64) * 0.6 }}>
           <ResultListItemTextHeader>
             {truncate(item.title, 35)}
@@ -78,26 +103,29 @@ export default function SearchScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        padding: spacing.screenPadding,
-        marginBottom: "-32px",
-      }}
-    >
+    <ScreenWrapperView>
       <SearchFormWrapper style={{ width: width - 64 }}>
         <SearchTextInput
+          style={{ maxWidth: width - 64 - 130 }}
           placeholder="Search for anime..."
           onChangeText={(text) => setSearchText(text)}
           value={searchText}
           onSubmitEditing={handleSearchSubmitButton}
         />
+        {searchText === "" ? (
+          <View></View>
+        ) : (
+          <IconButton onPress={handleClearSearchText}>
+            <Icon name="close-outline" color={colors.veryDarkGray} size={27} />
+          </IconButton>
+        )}
         <IconButton onPress={handleSearchSubmitButton}>
-          <Icon name="search-sharp" color={colors.veryDarkGray} size="27px" />
+          <Icon name="search-sharp" color={colors.veryDarkGray} size={27} />
         </IconButton>
       </SearchFormWrapper>
       {isLoaded ? (
         <ResultList
+          ref={resultListRef}
           data={searchResults}
           renderItem={renderItem}
           keyExtractor={(item) => String(item.mal_id)}
@@ -105,6 +133,6 @@ export default function SearchScreen({ navigation }) {
       ) : (
         <LoadingDisplay />
       )}
-    </SafeAreaView>
+    </ScreenWrapperView>
   );
 }

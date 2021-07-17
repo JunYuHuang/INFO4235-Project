@@ -10,7 +10,6 @@ export const loadAnimeResultsFromAPIAsync = createAsyncThunk(
   async (searchTerm, thunkAPI) => {
     const res = await findAllAnimeBySearchTerm(searchTerm);
     console.log("Inside loadAnimeResultsFromAPIAsync!");
-    console.log(res);
     return res;
   }
 );
@@ -20,7 +19,6 @@ export const loadDefaultAnimeResultsFromAPIAsync = createAsyncThunk(
   async () => {
     const res = await getAllCurrentSeasonalAnime();
     console.log("Inside loadDefaultAnimeResultsFromAPIAsync!");
-    console.log(res);
     return res;
   }
 );

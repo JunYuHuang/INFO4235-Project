@@ -11,7 +11,7 @@ export default function BackButton({ onPress, size }) {
       <Icon
         name="arrow-back"
         color={colors.veryDarkBlack}
-        size={size ? size : "19px"}
+        size={size ? size : 19}
         onPress={onPress}
       />
     </ButtonWrapper>

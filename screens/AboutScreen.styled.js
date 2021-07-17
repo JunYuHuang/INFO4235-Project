@@ -2,19 +2,19 @@ import styled from "styled-components/native";
 
 export const BodyText = styled.Text`
   font-size: 14px;
-  font-family: "Montserrat_400Regular";
   font-weight: normal;
   width: 100%;
   padding-top: 14px;
   padding-bottom: 14px;
   line-height: 28px;
+  font-family: "Montserrat_400Regular";
 `;
 
 export const HeadingText = styled.Text`
   font-size: 18px;
-  font-family: "Montserrat_500Medium";
   font-weight: bold;
   color: #18191f;
+  font-family: "Montserrat_500Medium";
 `;
 
 export const HeadingTextWrapper = styled.View`
@@ -24,6 +24,6 @@ export const HeadingTextWrapper = styled.View`
   border-bottom-width: 2px;
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 `;
