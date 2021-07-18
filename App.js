@@ -19,8 +19,7 @@ export default function App() {
   });
 
   useEffect(() => {
-    console.log("Inside App.js!");
-    console.log(error);
+    error && console.log(`Error loading fonts: ${error}`);
   }, [fontsLoaded, error]);
 
   if (!fontsLoaded) {

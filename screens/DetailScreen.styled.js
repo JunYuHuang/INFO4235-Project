@@ -84,8 +84,6 @@ export const NotesHeaderWrapper = styled.View`
   align-items: center;
 `;
 
-// outline-color: transparent;
-
 export const NotesTextInput = styled.TextInput`
   font-size: 14px;
   font-family: "Montserrat_400Regular";

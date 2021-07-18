@@ -57,9 +57,6 @@ function isAnimeInUserList(userList, id) {
       }
     });
   }
-  console.log(`isAnimeInUserList()? ${found}`);
-  console.log("userList : ");
-  console.log(userList);
   return found;
 }
 
@@ -69,6 +66,14 @@ function getUserNotes(userList, id) {
     listItem = userList.find((item) => Number(item.id) === Number(id));
   }
   return listItem ? listItem.notes : "";
+}
+
+function getNotesTextInputPlaceholder(isEditing = false, isInUserList = false) {
+  let text = "Add this anime to your list to get started!";
+  if (isInUserList) {
+    text = isEditing ? "Write some notes" : "Press 'Edit' to add notes";
+  }
+  return text;
 }
 
 export default function DetailScreen({ route, navigation }) {
@@ -123,6 +128,14 @@ export default function DetailScreen({ route, navigation }) {
     setUserNotes(getUserNotes(userList, animeID));
   }, [userList]);
 
+  useEffect(() => {
+    if (isEditing) {
+      notesTextInputRef.current.focus();
+    } else {
+      Keyboard.dismiss();
+    }
+  }, [isEditing]);
+
   const handleAddButton = () => {
     console.log("TODO: Add anime title to local SQLite database!");
     const { mal_id, title, image_url, userNotes } = animeItem;
@@ -146,7 +159,6 @@ export default function DetailScreen({ route, navigation }) {
   const handleEditButton = () => {
     if (isAnimeInUserList(userList, animeID)) {
       setIsEditing(true);
-      // notesTextInputRef.current.focus();
     } else {
       console.log("Cannot edit notes because anime is not in user's list!");
     }
@@ -159,8 +171,8 @@ export default function DetailScreen({ route, navigation }) {
       );
       dispatch(editUserDataListItemNotes({ id: animeID, notes: userNotes }));
       setIsEditing(false);
-      Keyboard.dismiss();
     }
+    Keyboard.dismiss();
   };
 
   const handleBackButton = () => {
@@ -175,7 +187,7 @@ export default function DetailScreen({ route, navigation }) {
   return (
     <ScreenWrapperView>
       {isLoaded ? (
-        <ScrollView>
+        <ScrollView keyboardShouldPersistTaps="always">
           <HeadingWrapper>
             <BackButton size={24} onPress={handleBackButton} />
             <H1Text style={{ maxWidth: (width - 64) * 0.7 }}>
@@ -243,38 +255,46 @@ export default function DetailScreen({ route, navigation }) {
           </ArticleBlock>
           <ArticleBlock>
             <NotesHeaderWrapper>
-              <H2Text>Your Notes</H2Text>
-              {isEditing ? (
-                <ActionButtonWithTextWrapper onPress={handleSaveButton}>
-                  <Icon
-                    name="save-outline"
-                    color={colors.veryDarkBlack}
-                    size={12}
-                    style={{ paddingTop: 2 }}
-                  />
-                  <ButtonTextSmall style={{ paddingLeft: 8 }}>
-                    Save
-                  </ButtonTextSmall>
-                </ActionButtonWithTextWrapper>
-              ) : (
-                <ActionButtonWithTextWrapper onPress={handleEditButton}>
-                  <Icon
-                    name="pencil-sharp"
-                    color={colors.veryDarkBlack}
-                    size={12}
-                    style={{ paddingTop: 2 }}
-                  />
-                  <ButtonTextSmall style={{ paddingLeft: 8 }}>
-                    Edit
-                  </ButtonTextSmall>
-                </ActionButtonWithTextWrapper>
-              )}
+              <H2Text>
+                Your Notes{" "}
+                {userNotes === getUserNotes(userList, animeID)
+                  ? ""
+                  : "(Unsaved)"}
+              </H2Text>
+              {isInUserList &&
+                (isEditing ? (
+                  <ActionButtonWithTextWrapper onPress={handleSaveButton}>
+                    <Icon
+                      name="save-outline"
+                      color={colors.veryDarkBlack}
+                      size={12}
+                      style={{ paddingTop: 2 }}
+                    />
+                    <ButtonTextSmall style={{ paddingLeft: 8 }}>
+                      Save
+                    </ButtonTextSmall>
+                  </ActionButtonWithTextWrapper>
+                ) : (
+                  <ActionButtonWithTextWrapper onPress={handleEditButton}>
+                    <Icon
+                      name="pencil-sharp"
+                      color={colors.veryDarkBlack}
+                      size={12}
+                      style={{ paddingTop: 2 }}
+                    />
+                    <ButtonTextSmall style={{ paddingLeft: 8 }}>
+                      Edit
+                    </ButtonTextSmall>
+                  </ActionButtonWithTextWrapper>
+                ))}
             </NotesHeaderWrapper>
             <NotesTextInput
               ref={notesTextInputRef}
-              placeholder="Write some notes"
+              placeholder={getNotesTextInputPlaceholder(
+                isEditing,
+                isInUserList
+              )}
               onChangeText={(text) => setUserNotes(text)}
-              onSubmitEditing={handleSaveButton}
               value={userNotes}
               editable={isInUserList && isEditing}
               multiline
@@ -294,5 +314,3 @@ export default function DetailScreen({ route, navigation }) {
     </ScreenWrapperView>
   );
 }
-
-// editable={isInUserList && isEditing}
