@@ -9,6 +9,7 @@ import {
   H3Text,
   ActionButtonWrapper,
   ActionButtonWithTextWrapper,
+  ActionButtonWithTextWrapperContainer,
   FullImage,
   AnimeDetailsContainer,
   AnimeDetail,
@@ -78,7 +79,7 @@ function getNotesTextInputPlaceholder(isEditing = false, isInUserList = false) {
 
 export default function DetailScreen({ route, navigation }) {
   const { width } = useWindowDimensions();
-  const { spacing, colors } = useTheme();
+  const { colors } = useTheme();
   const { animeID } = route.params;
   // const animeItem = useSelector(selectAnimeDetail);
   const userList = useSelector(selectUserDataList);
@@ -175,6 +176,12 @@ export default function DetailScreen({ route, navigation }) {
     Keyboard.dismiss();
   };
 
+  const handleCancelButton = () => {
+    setUserNotes(getUserNotes(userList, animeID));
+    setIsEditing(false);
+    Keyboard.dismiss();
+  };
+
   const handleBackButton = () => {
     navigation.goBack();
   };
@@ -256,38 +263,61 @@ export default function DetailScreen({ route, navigation }) {
           <ArticleBlock>
             <NotesHeaderWrapper>
               <H2Text>
-                Your Notes{" "}
+                Notes{" "}
                 {userNotes === getUserNotes(userList, animeID)
                   ? ""
                   : "(Unsaved)"}
               </H2Text>
-              {isInUserList &&
-                (isEditing ? (
-                  <ActionButtonWithTextWrapper onPress={handleSaveButton}>
+            </NotesHeaderWrapper>
+
+            {isInUserList &&
+              (isEditing ? (
+                <ActionButtonWithTextWrapperContainer
+                  style={{ width: width - 64 }}
+                >
+                  <ActionButtonWithTextWrapper
+                    style={{ width: (width - 64) * 0.45 }}
+                    onPress={handleCancelButton}
+                  >
+                    <Icon
+                      name="close-outline"
+                      color={colors.veryDarkBlack}
+                      size={24}
+                      style={{ paddingTop: 2 }}
+                    />
+                    <ButtonText style={{ paddingLeft: 8 }}>Cancel</ButtonText>
+                  </ActionButtonWithTextWrapper>
+                  <ActionButtonWithTextWrapper
+                    style={{ marginLeft: 8, width: (width - 64) * 0.45 }}
+                    onPress={handleSaveButton}
+                  >
                     <Icon
                       name="save-outline"
                       color={colors.veryDarkBlack}
-                      size={12}
+                      size={24}
                       style={{ paddingTop: 2 }}
                     />
-                    <ButtonTextSmall style={{ paddingLeft: 8 }}>
-                      Save
-                    </ButtonTextSmall>
+                    <ButtonText style={{ paddingLeft: 8 }}>Save</ButtonText>
                   </ActionButtonWithTextWrapper>
-                ) : (
-                  <ActionButtonWithTextWrapper onPress={handleEditButton}>
+                </ActionButtonWithTextWrapperContainer>
+              ) : (
+                <ActionButtonWithTextWrapperContainer
+                  style={{ width: width - 64 }}
+                >
+                  <ActionButtonWithTextWrapper
+                    style={{ width: (width - 64) * 0.45 }}
+                    onPress={handleEditButton}
+                  >
                     <Icon
                       name="pencil-sharp"
                       color={colors.veryDarkBlack}
-                      size={12}
-                      style={{ paddingTop: 2 }}
+                      size={20}
+                      style={{ paddingTop: 4, paddingBottom: 2 }}
                     />
-                    <ButtonTextSmall style={{ paddingLeft: 8 }}>
-                      Edit
-                    </ButtonTextSmall>
+                    <ButtonText style={{ paddingLeft: 8 }}>Edit</ButtonText>
                   </ActionButtonWithTextWrapper>
-                ))}
-            </NotesHeaderWrapper>
+                </ActionButtonWithTextWrapperContainer>
+              ))}
             <NotesTextInput
               ref={notesTextInputRef}
               placeholder={getNotesTextInputPlaceholder(

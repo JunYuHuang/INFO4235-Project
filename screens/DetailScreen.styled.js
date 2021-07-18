@@ -53,15 +53,21 @@ export const ActionButtonWrapper = styled.TouchableOpacity`
 `;
 
 export const ActionButtonWithTextWrapper = styled.TouchableOpacity`
-  margin-bottom: 10px;
-  padding: 3px 10px;
+  padding: 4px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   border-color: #18191f;
   border-width: 2px;
-  border-radius: 10px;
+  border-radius: 14px;
+  margin-bottom: 10px;
+`;
+
+export const ActionButtonWithTextWrapperContainer = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 export const FullImage = styled.Image`

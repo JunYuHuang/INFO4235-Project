@@ -18,11 +18,12 @@ This is a mobile app that lets users explore anime titles and build their anime 
 
 ## TODO / Backlog
 
-- Update Back button and Heading text sizes on About and Settings screen to be consistent with rest of Screen pages
-- Add pagination or infinite scrolling to the SearchScreen
-- Add SQLite functionality for saving data to local persistent storage
 - Migrate DetailScreen state from React to Redux
+- Add SQLite functionality for saving data to local persistent storage
+- Add pagination or infinite scrolling to the SearchScreen
 - Deploy app?
+- Update Back button and Heading text sizes on About and Settings screen to be consistent with rest of Screen pages
+- Rework layout of "Back" and "Add / Remove" buttons on DetailScreen to be on their own row instead of sharing it with the anime title
 
 ## Completed TODOs
 
