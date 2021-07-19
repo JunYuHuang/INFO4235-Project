@@ -32,3 +32,5 @@ This is a mobile app that lets users explore anime titles and build their anime 
 - Force focus on TextInput on DetailScreen when user presses "Edit" button for notes
 - Force unfocus on TextInput on DetailScreen when user presses "Save" button for notes
 - Migrate DetailScreen state from React to Redux
+- Add additional loading screen from initial startup
+- Update LoadingDisplay to use a animated, rotating icon or jpeg image

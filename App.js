@@ -10,7 +10,7 @@ import {
   Montserrat_400Regular,
   Montserrat_500Medium,
 } from "@expo-google-fonts/montserrat";
-import LoadingDisplay from "./components/LoadingDisplay";
+import InitialLoadingDisplay from "./components/InitialLoadingDisplay";
 
 export default function App() {
   let [fontsLoaded, error] = useFonts({
@@ -23,7 +23,7 @@ export default function App() {
   }, [fontsLoaded, error]);
 
   if (!fontsLoaded) {
-    return <LoadingDisplay />;
+    return <InitialLoadingDisplay />;
   } else {
     return (
       <Provider store={store}>
