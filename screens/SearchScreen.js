@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View } from "react-native";
+import { Keyboard } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import {
@@ -74,6 +74,7 @@ export default function SearchScreen({ navigation }) {
   const handleSearchSubmitButton = () => {
     if (searchText !== "") {
       dispatch(loadAnimeResultsFromAPIAsync(searchText));
+      Keyboard.dismiss();
       scrollListToTop();
     }
   };
@@ -112,9 +113,7 @@ export default function SearchScreen({ navigation }) {
           value={searchText}
           onSubmitEditing={handleSearchSubmitButton}
         />
-        {searchText === "" ? (
-          <View></View>
-        ) : (
+        {searchText !== "" && (
           <IconButton onPress={handleClearSearchText}>
             <Icon name="close-outline" color={colors.veryDarkGray} size={27} />
           </IconButton>
