@@ -18,7 +18,6 @@ This is a mobile app that lets users explore anime titles and build their anime 
 
 ## TODO / Backlog
 
-- Migrate DetailScreen state from React to Redux
 - Add SQLite functionality for saving data to local persistent storage
 - Add pagination or infinite scrolling to the SearchScreen
 - Deploy app?
@@ -32,3 +31,4 @@ This is a mobile app that lets users explore anime titles and build their anime 
 - Force vertical FlatList on SearchScreen to automatically scroll to the top when a new search term has returned new results
 - Force focus on TextInput on DetailScreen when user presses "Edit" button for notes
 - Force unfocus on TextInput on DetailScreen when user presses "Save" button for notes
+- Migrate DetailScreen state from React to Redux

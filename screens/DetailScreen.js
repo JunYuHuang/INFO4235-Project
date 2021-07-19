@@ -19,7 +19,6 @@ import {
   BottomBackButton,
   BottomBackButtonWrapper,
   ButtonText,
-  ButtonTextSmall,
   NotesHeaderWrapper,
 } from "./DetailScreen.styled";
 import { ScreenWrapperView } from "../components/ScreenWrapper.styled";
@@ -28,15 +27,11 @@ import LoadingDisplay from "../components/LoadingDisplay";
 import useWindowDimensions from "../lib/useWindowDimensions";
 import {
   getTextFromGenresArray,
-  findAnimeByID,
   getObjectQuantitySuffix,
 } from "../lib/jikanAPIHelper";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectAnimeDetail,
-  setAnimeDetail,
-  clearAnimeDetail,
-  loadAnimeDetailFromLocal,
   loadAnimeDetailFromAPIAsync,
 } from "../redux/animeDetailSlice";
 import {
@@ -45,9 +40,6 @@ import {
   deleteUserDataListItem,
   editUserDataListItemNotes,
 } from "../redux/userDataSlice";
-import { store } from "../redux/store";
-
-const { getState } = store;
 
 function isAnimeInUserList(userList, id) {
   let found = false;
@@ -81,11 +73,10 @@ export default function DetailScreen({ route, navigation }) {
   const { width } = useWindowDimensions();
   const { colors } = useTheme();
   const { animeID } = route.params;
-  // const animeItem = useSelector(selectAnimeDetail);
+  const animeItem = useSelector(selectAnimeDetail);
   const userList = useSelector(selectUserDataList);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInUserList, setIsInUserList] = useState(false);
-  const [animeItem, setAnimeItem] = useState({});
   const [userNotes, setUserNotes] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const notesTextInputRef = useRef();
@@ -95,13 +86,8 @@ export default function DetailScreen({ route, navigation }) {
     // TODO: fetch user item
     const { animeID } = route.params;
 
-    findAnimeByID(animeID)
-      .then((anime) => {
-        setAnimeItem(anime);
-        // dispatch(setAnimeDetail(anime));
-        setUserNotes(getUserNotes(userList, animeID));
-        setIsInUserList(isAnimeInUserList(userList, animeID));
-      })
+    dispatch(loadAnimeDetailFromAPIAsync(animeID))
+      .unwrap()
       .then(() => {
         console.log(`isInUserList? ${isInUserList}`);
         setIsLoaded(true);
@@ -109,13 +95,6 @@ export default function DetailScreen({ route, navigation }) {
       .catch((err) => {
         console.log(err);
       });
-    // dispatch(loadAnimeDetailFromAPIAsync(animeID));
-    // dispatch(loadAnimeDetailFromLocal());
-
-    return () => {
-      setAnimeItem({});
-      // dispatch(clearAnimeDetail());
-    };
   }, []);
 
   useEffect(() => {
@@ -193,7 +172,7 @@ export default function DetailScreen({ route, navigation }) {
 
   return (
     <ScreenWrapperView>
-      {isLoaded ? (
+      {isLoaded && animeItem !== {} ? (
         <ScrollView keyboardShouldPersistTaps="always">
           <HeadingWrapper>
             <BackButton size={24} onPress={handleBackButton} />

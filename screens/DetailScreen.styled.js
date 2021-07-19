@@ -123,9 +123,3 @@ export const ButtonText = styled.Text`
   font-family: "Montserrat_400Regular";
   color: #18191f;
 `;
-
-export const ButtonTextSmall = styled.Text`
-  font-size: 14px;
-  font-family: "Montserrat_400Regular";
-  color: #18191f;
-`;
