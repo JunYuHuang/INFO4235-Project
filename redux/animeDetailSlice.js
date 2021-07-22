@@ -6,7 +6,7 @@ export const loadAnimeDetailFromAPIAsync = createAsyncThunk(
   async (animeID, thunkAPI) => {
     const res = await findAnimeByID(animeID);
     console.log("Inside loadAnimeDetailFromAPIAsync!");
-    console.log(res);
+    // console.log(res);
     return res;
   }
 );

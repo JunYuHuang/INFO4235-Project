@@ -6,23 +6,28 @@ This is a mobile app that lets users explore anime titles and build their anime 
 
 ## Technologies Used
 
-- JavaScript
+- Axios
 - Expo
-- React Native
-- Redux
-- React Navigation
-- Styled-Components
-- SQLite
-- React Native Vector Icons
+- JavaScript
 - Jikan v3 API
+- React
+- React Native
+- React Native Vector Icons
+- React Navigation
+- Redux
+- SQLite
+- Styled-Components
 
 ## TODO / Backlog
 
 - Add SQLite functionality for saving data to local persistent storage
-- Add pagination or infinite scrolling to the SearchScreen
+- Find way to filter out or exclude Hentail (anime with RX ratings) from Search results
+- Add pagination or infinite scrolling to SearchScreen
+- Add cachedDefaultSearchResults slice to Redux store for SearchScreen
 - Deploy app?
 - Update Back button and Heading text sizes on About and Settings screen to be consistent with rest of Screen pages
 - Rework layout of "Back" and "Add / Remove" buttons on DetailScreen to be on their own row instead of sharing it with the anime title
+- Remove duplicate DetailScreen from ListStackNav and make ListStackNav share DetailScreen with SearchStackNav?
 
 ## Completed TODOs
 

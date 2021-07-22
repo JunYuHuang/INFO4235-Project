@@ -1,15 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useTheme } from "@react-navigation/native";
 import ListStackNav from "./ListStackNav";
 import SearchStackNav from "./SearchStackNav";
 import SettingsStackNav from "./SettingsStackNav";
 import Icon from "react-native-vector-icons/Ionicons";
-
 const Tab = createBottomTabNavigator();
 
+// import { selectUserDataList } from "../redux/userDataSlice";
+// import { useSelector } from "react-redux";
+// import { loadAppData } from "../lib/appDataHelper";
+
 export default function AppTabNav() {
-  const { colors, spacing, fontFamily } = useTheme();
+  const { colors, fontFamily } = useTheme();
+
+  const userList = useSelector(selectUserDataList);
+
+  useEffect(() => {
+    console.log("Initial userList inside AppTabNav.js!");
+    console.log(userList);
+    // loadAppData();
+  }, []);
+
+  // useEffect(() => {
+  //   console.log("Initial userList inside AppTabNav.js!");
+  //   console.log(userList);
+  //   loadAppData();
+  // }, [userList]);
 
   return (
     <Tab.Navigator

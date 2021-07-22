@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useTheme } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import {
@@ -31,10 +31,6 @@ export default function ListScreen({ navigation }) {
   const { width } = useWindowDimensions();
   const { colors } = useTheme();
   const userList = useSelector(selectUserDataList);
-
-  useEffect(() => {
-    console.log(userList);
-  }, []);
 
   const renderItem = ({ item }) => {
     return (

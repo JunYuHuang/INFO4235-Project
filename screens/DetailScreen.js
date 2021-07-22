@@ -99,7 +99,7 @@ export default function DetailScreen({ route, navigation }) {
 
   useEffect(() => {
     console.log("userList updated!");
-    console.log(userList);
+    // console.log(userList);
     if (isAnimeInUserList(userList, animeID)) {
       setIsInUserList(true);
     } else {

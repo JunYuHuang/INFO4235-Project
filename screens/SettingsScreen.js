@@ -6,15 +6,12 @@ import {
   HeadingTextWrapper,
 } from "./SettingsScreen.styled";
 import { ScreenWrapperView } from "../components/ScreenWrapper.styled";
-import { useDispatch } from "react-redux";
-import { clearUserData } from "../redux/userDataSlice";
+import { deleteAllAppData } from "../lib/appDataHelper";
 
 export default function SettingsScreen({ navigation }) {
-  const dispatch = useDispatch();
-
   const handleClearButton = () => {
-    console.log("TODO: Clear local data from SQLite database!");
-    dispatch(clearUserData());
+    console.log("Clear local data from SQLite database!");
+    deleteAllAppData();
   };
 
   return (

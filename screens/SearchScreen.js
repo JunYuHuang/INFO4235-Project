@@ -122,7 +122,7 @@ export default function SearchScreen({ navigation }) {
           <Icon name="search-sharp" color={colors.veryDarkGray} size={27} />
         </IconButton>
       </SearchFormWrapper>
-      {isLoaded ? (
+      {isLoaded && searchResults !== [] ? (
         <ResultList
           ref={resultListRef}
           data={searchResults}
