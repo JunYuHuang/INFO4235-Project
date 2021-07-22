@@ -40,6 +40,7 @@ import {
   deleteUserDataListItem,
   editUserDataListItemNotes,
 } from "../redux/userDataSlice";
+import useDB from "../lib/useDB";
 
 function isAnimeInUserList(userList, id) {
   let found = false;
@@ -81,6 +82,11 @@ export default function DetailScreen({ route, navigation }) {
   const [isEditing, setIsEditing] = useState(false);
   const notesTextInputRef = useRef();
   const dispatch = useDispatch();
+  const {
+    addAnimeToUserList,
+    deleteAnimeFromUserList,
+    updateAnimeFromUserList,
+  } = useDB();
 
   useEffect(() => {
     // TODO: fetch user item
@@ -98,7 +104,7 @@ export default function DetailScreen({ route, navigation }) {
   }, []);
 
   useEffect(() => {
-    console.log("userList updated!");
+    // console.log("userList updated!");
     // console.log(userList);
     if (isAnimeInUserList(userList, animeID)) {
       setIsInUserList(true);
@@ -117,23 +123,19 @@ export default function DetailScreen({ route, navigation }) {
   }, [isEditing]);
 
   const handleAddButton = () => {
-    console.log("TODO: Add anime title to local SQLite database!");
     const { mal_id, title, image_url, userNotes } = animeItem;
-    dispatch(
-      addUserDataListItem({
-        id: mal_id,
-        title: title,
-        imgURL: image_url,
-        notes: userNotes,
-      })
-    );
+    addAnimeToUserList({
+      id: mal_id,
+      title: title,
+      imgURL: image_url,
+      notes: userNotes,
+    });
     console.log(userList);
   };
 
   const handleDeleteButton = () => {
-    console.log("TODO: Remove anime title to local SQLite database!");
     const { mal_id } = animeItem;
-    dispatch(deleteUserDataListItem({ id: mal_id }));
+    deleteAnimeFromUserList(mal_id);
   };
 
   const handleEditButton = () => {
@@ -146,10 +148,7 @@ export default function DetailScreen({ route, navigation }) {
 
   const handleSaveButton = () => {
     if (isAnimeInUserList(userList, animeID) && isEditing) {
-      console.log(
-        "TODO: Updated anime title's notes property in local SQLite database!"
-      );
-      dispatch(editUserDataListItemNotes({ id: animeID, notes: userNotes }));
+      updateAnimeFromUserList(animeID, userNotes);
       setIsEditing(false);
     }
     Keyboard.dismiss();
