@@ -6,12 +6,12 @@ import {
   HeadingTextWrapper,
 } from "./SettingsScreen.styled";
 import { ScreenWrapperView } from "../components/ScreenWrapper.styled";
-import { deleteAllAppData } from "../lib/appDataHelper";
+import useDB from "../lib/useDB";
 
 export default function SettingsScreen({ navigation }) {
+  const { deleteAllAnimeFromUserList } = useDB();
   const handleClearButton = () => {
-    console.log("Clear local data from SQLite database!");
-    deleteAllAppData();
+    deleteAllAnimeFromUserList();
   };
 
   return (

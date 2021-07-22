@@ -5,28 +5,19 @@ import ListStackNav from "./ListStackNav";
 import SearchStackNav from "./SearchStackNav";
 import SettingsStackNav from "./SettingsStackNav";
 import Icon from "react-native-vector-icons/Ionicons";
+
 const Tab = createBottomTabNavigator();
 
-// import { selectUserDataList } from "../redux/userDataSlice";
-// import { useSelector } from "react-redux";
-// import { loadAppData } from "../lib/appDataHelper";
+import useDB from "../lib/useDB";
 
 export default function AppTabNav() {
   const { colors, fontFamily } = useTheme();
-
-  const userList = useSelector(selectUserDataList);
+  const { initializeDb } = useDB();
 
   useEffect(() => {
-    console.log("Initial userList inside AppTabNav.js!");
-    console.log(userList);
-    // loadAppData();
+    console.log("AppTabNav: Initializing database.");
+    initializeDb();
   }, []);
-
-  // useEffect(() => {
-  //   console.log("Initial userList inside AppTabNav.js!");
-  //   console.log(userList);
-  //   loadAppData();
-  // }, [userList]);
 
   return (
     <Tab.Navigator
