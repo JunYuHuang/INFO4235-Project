@@ -37,3 +37,5 @@ This is a mobile app that lets users explore anime titles and build their anime 
 - Add additional loading screen from initial startup
 - Update LoadingDisplay to use a animated, rotating icon or jpeg image
 - Add SQLite functionality for saving data to local persistent storage
+- Optimize storing of search results in Redux
+- Add alert for clear user data on SettingsScreen

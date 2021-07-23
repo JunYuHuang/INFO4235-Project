@@ -41,6 +41,7 @@ export default function SearchScreen({ navigation }) {
       .unwrap()
       .then(() => {
         setIsLoaded(true);
+        console.log(`${searchResults.length} search results`);
       })
       .catch((err) => {
         console.log(err);
@@ -78,6 +79,7 @@ export default function SearchScreen({ navigation }) {
         .unwrap()
         .then(() => {
           setIsLoaded(true);
+          console.log(`${searchResults.length} search results`);
         })
         .catch((err) => {
           console.log(err);
