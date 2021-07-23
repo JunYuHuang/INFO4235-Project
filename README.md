@@ -20,14 +20,11 @@ This is a mobile app that lets users explore anime titles and build their anime 
 
 ## TODO / Backlog
 
-- Add SQLite functionality for saving data to local persistent storage
-- Find way to filter out or exclude Hentail (anime with RX ratings) from Search results
+- Exclude Hentai-genre anime from Search results while keeping most relevant results at top
 - Add pagination or infinite scrolling to SearchScreen
 - Add cachedDefaultSearchResults slice to Redux store for SearchScreen
-- Deploy app?
 - Update Back button and Heading text sizes on About and Settings screen to be consistent with rest of Screen pages
 - Rework layout of "Back" and "Add / Remove" buttons on DetailScreen to be on their own row instead of sharing it with the anime title
-- Remove duplicate DetailScreen from ListStackNav and make ListStackNav share DetailScreen with SearchStackNav?
 
 ## Completed TODOs
 
@@ -39,3 +36,4 @@ This is a mobile app that lets users explore anime titles and build their anime 
 - Migrate DetailScreen state from React to Redux
 - Add additional loading screen from initial startup
 - Update LoadingDisplay to use a animated, rotating icon or jpeg image
+- Add SQLite functionality for saving data to local persistent storage

@@ -307,6 +307,7 @@ export default function DetailScreen({ route, navigation }) {
               editable={isInUserList && isEditing}
               multiline
               numberOfLines={1}
+              placeholderTextColor={colors.darkGray}
             />
           </ArticleBlock>
           <BottomBackButtonWrapper>

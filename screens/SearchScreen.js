@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Keyboard } from "react-native";
+import { Keyboard, Alert } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import {
@@ -37,17 +37,17 @@ export default function SearchScreen({ navigation }) {
 
   useEffect(() => {
     // temp commented below to avoid abusing JikanAPI on refresh
-    // dispatch(loadDefaultAnimeResultsFromAPIAsync())
-    //   .unwrap()
-    //   .then(() => {
-    //     setIsLoaded(true);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    dispatch(loadDefaultAnimeResultsFromAPIAsync())
+      .unwrap()
+      .then(() => {
+        setIsLoaded(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
-    dispatch(loadAnimeResultsFromLocal());
-    setIsLoaded(true);
+    // dispatch(loadAnimeResultsFromLocal());
+    // setIsLoaded(true);
 
     return () => {
       dispatch(clearAnimeResults());
@@ -72,10 +72,29 @@ export default function SearchScreen({ navigation }) {
   };
 
   const handleSearchSubmitButton = () => {
-    if (searchText !== "") {
-      dispatch(loadAnimeResultsFromAPIAsync(searchText));
+    if (searchText !== "" && String(searchText).length >= 3) {
+      setIsLoaded(false);
+      dispatch(loadAnimeResultsFromAPIAsync(searchText))
+        .unwrap()
+        .then(() => {
+          setIsLoaded(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       Keyboard.dismiss();
       scrollListToTop();
+    }
+
+    if (searchText === "") {
+      Alert.alert("Invalid Search Request", "Search term cannot be blank");
+    } else if (String(searchText).length < 3) {
+      Alert.alert(
+        "Invalid Search Request",
+        "Search term must be 3 characters or longer"
+      );
+    } else {
+      // do nothing
     }
   };
 
@@ -109,7 +128,7 @@ export default function SearchScreen({ navigation }) {
         <SearchTextInput
           style={{ maxWidth: width - 64 - 130 }}
           placeholder="Search for anime..."
-          onChangeText={(text) => setSearchText(text)}
+          onChangeText={(text) => setSearchText(text.trim())}
           value={searchText}
           onSubmitEditing={handleSearchSubmitButton}
         />
