@@ -75,7 +75,7 @@ export default function SearchScreen({ navigation }) {
   const handleSearchSubmitButton = () => {
     if (searchText !== "" && String(searchText).length >= 3) {
       setIsLoaded(false);
-      dispatch(loadAnimeResultsFromAPIAsync(searchText))
+      dispatch(loadAnimeResultsFromAPIAsync(searchText.trim()))
         .unwrap()
         .then(() => {
           setIsLoaded(true);
@@ -130,7 +130,7 @@ export default function SearchScreen({ navigation }) {
         <SearchTextInput
           style={{ maxWidth: width - 64 - 130 }}
           placeholder="Search for anime..."
-          onChangeText={(text) => setSearchText(text.trim())}
+          onChangeText={(text) => setSearchText(text)}
           value={searchText}
           onSubmitEditing={handleSearchSubmitButton}
         />
