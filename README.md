@@ -4,6 +4,16 @@ Aniflex is the course project for the class INFO 4235: Special Topics In Web & M
 
 This is a mobile app that lets users explore anime titles and build their anime list with optional notes.
 
+## Features
+
+- View basic information on an anime title retrieved from the MyAnimeList database
+- Search the MyAnimeList database for anime titles based on textual keywords
+- Add and remove an anime title to and from a user’s list respectively
+- Write and edit notes to an existing anime on a user’s list
+- Clear or delete all of the user’s local data
+- Store the user’s list and notes in persistent data storage via SQLite
+- View basic information about the developers on the About page or screen
+
 ## Technologies Used
 
 - Axios
@@ -20,7 +30,6 @@ This is a mobile app that lets users explore anime titles and build their anime 
 
 ## TODO / Backlog
 
-- Exclude Hentai-genre anime from Search results while keeping most relevant results at top
 - Add pagination or infinite scrolling to SearchScreen
 - Add cachedDefaultSearchResults slice to Redux store for SearchScreen
 - Update Back button and Heading text sizes on About and Settings screen to be consistent with rest of Screen pages
@@ -38,4 +47,4 @@ This is a mobile app that lets users explore anime titles and build their anime 
 - Update LoadingDisplay to use a animated, rotating icon or jpeg image
 - Add SQLite functionality for saving data to local persistent storage
 - Optimize storing of search results in Redux
-- Add alert for clear user data on SettingsScreen
+- Add alert for clearing user data on SettingsScreen
