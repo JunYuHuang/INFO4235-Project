@@ -1,5 +1,7 @@
 # INFO4235-Project: Aniflex
 
+![Aniflex Demo Preview](https://imgur.com/a/GNyz8Ub)
+
 Aniflex is the course project for the class INFO 4235: Special Topics In Web & Mobile Development.
 
 This is a mobile app that lets users explore anime titles and build their anime list with optional notes.
