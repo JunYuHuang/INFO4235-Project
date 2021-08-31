@@ -1,6 +1,6 @@
 # INFO4235-Project: Aniflex
 
-![Aniflex Demo Preview](https://imgur.com/a/GNyz8Ub)
+![Aniflex Demo Preview](https://i.imgur.com/4isT8IO.mp4)
 
 Aniflex is the course project for the class INFO 4235: Special Topics In Web & Mobile Development.
 
